@@ -26,6 +26,7 @@ void writeChunk(Chunk* chunk, uint8_t byte) {
   chunk->counter++;
 }
 
+// my attempt in printing chunks myself. TODO: Remove later
 void printChunk(Chunk* chunk) {
   int i;
 

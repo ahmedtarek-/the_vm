@@ -1,5 +1,6 @@
 #include "common.h"
 #include "chunk.h"
+#include "debug.h"
 #include <stdio.h>
 
 int main(int argc, const char* argv[]) {
@@ -7,7 +8,8 @@ int main(int argc, const char* argv[]) {
   initChunk(&chunk);
   writeChunk(&chunk, OP_RETURN);
   writeChunk(&chunk, OP_NO_RETURN);
-  printChunk(&chunk);
+  // printChunk(&chunk);
+  disassembleChunk(&chunk, "Oh Chunk!");
   freeChunk(&chunk);
 
   return 0;

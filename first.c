@@ -57,21 +57,9 @@ int main(void) {
     printf("%i\n",*pntr);
   }
 
-  code = realloc(code, sizeof(uint8_t) * n * 2);
+  sieve(44);
 
-  printf("Addresses&values in expanded code:\n");
-  for (int i=n; i<(n*2); ++i) {
-    uint8_t *pntr = code + i;
-    *pntr = i*10;
-    printf("%p\n",pntr);
-    printf("%i\n",*pntr);
-  }
 
-  free(code);
-
-  printf("ABRUPT Fetching OF MEMORY\n");
-  uint8_t *pntrR = code + 1;
-  printf("%i\n",*pntrR);
 
   return 0;
 }
