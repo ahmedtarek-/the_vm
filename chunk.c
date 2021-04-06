@@ -2,15 +2,18 @@
 #include <stdio.h>
 #include "chunk.h"
 #include "memory.h"
+#include "value.h"
 
 void initChunk(Chunk* chunk) {
   chunk->counter = 0;
   chunk->capacity = 0;
   chunk->code = NULL;
+  initValueArray(&chunk->constants);
 }
 
 void freeChunk(Chunk* chunk) {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
+  freeValueArray(&chunk->constants);
   initChunk(chunk);
 }
 
@@ -24,6 +27,12 @@ void writeChunk(Chunk* chunk, uint8_t byte) {
   // TODO understand this whole pointer accessing through [] and how we allocate memory with capacity
   chunk->code[chunk->counter] = byte;
   chunk->counter++;
+}
+
+// Adds a value to the constants belonging to this chunk and returns index of last added value
+int addConstant(Chunk* chunk, Value value) {
+  writeValueArray(&chunk->constants, value);
+  return chunk->constants.counter - 1;
 }
 
 // my attempt in printing chunks myself. TODO: Remove later
