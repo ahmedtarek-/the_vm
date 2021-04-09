@@ -8,24 +8,28 @@ void initChunk(Chunk* chunk) {
   chunk->counter = 0;
   chunk->capacity = 0;
   chunk->code = NULL;
+  chunk->lines = NULL;
   initValueArray(&chunk->constants);
 }
 
 void freeChunk(Chunk* chunk) {
   FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
+  FREE_ARRAY(int, chunk->lines, chunk->capacity);
   freeValueArray(&chunk->constants);
   initChunk(chunk);
 }
 
-void writeChunk(Chunk* chunk, uint8_t byte) {
+void writeChunk(Chunk* chunk, uint8_t byte, int line) {
   if (chunk->counter + 1 > chunk->capacity) {
     int oldCapacity = chunk->capacity;
     chunk->capacity = GROW_CAPACITY(oldCapacity);
     chunk->code = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
+    chunk->lines = GROW_ARRAY(int, chunk->lines, oldCapacity, chunk->capacity);
   }
 
   // TODO understand this whole pointer accessing through [] and how we allocate memory with capacity
   chunk->code[chunk->counter] = byte;
+  chunk->lines[chunk->counter] = line;
   chunk->counter++;
 }
 
