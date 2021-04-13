@@ -18,19 +18,24 @@ VMResult interpret(Chunk* chunk){
   return run();
 }
 
+// This where magic happens (i.e bytecode dispatch)
+// Switch dispatching as we see here isn't optimal but since
+//  it's implementation in ANSI standard C, it's very portable
+//  and actually JS and Python interpreters use this type of dispatching.
+// Other types: Direct Call Threading, Direct threading and Ccomputed go-to.
 VMResult run(){
-  printf("Inside RUN\n");
-#define READ_BYTE() (*vm.ip++)
-  printf("  -- chunk(addr): %p\n", vm.chunk->code);
+  #define READ_BYTE() (*vm.ip++)
+    printf("Enter RUN\n");
 
-  for (;;) {
-    uint8_t instruction;
-    switch (instruction = READ_BYTE()) {
-      printf("  -- ip: %p\n", vm.ip);
-      printf(" -- Instruction: %i\n", instruction);
-      case OP_RETURN:
-        return RESULT_OK;
+    for (;;) {
+      uint8_t instruction;
+      switch (instruction = READ_BYTE()) {
+        case OP_RETURN:
+          printf(" -- ip after: %p\n", vm.ip);
+          printf(" -- Instruction: %i\n", instruction);
+          return RESULT_OK;
+      }
     }
-  }
-#undef READ_BYTE
+    printf("Exit RUN\n");
+  #undef READ_BYTE
 }
