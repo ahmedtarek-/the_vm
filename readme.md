@@ -13,4 +13,4 @@ LOAD
 
 ## To run the MOFO
 
-`gcc -o main main.c chunk.c memory.c debug.c value.c`
+`gcc -o main main.c chunk.c memory.c debug.c value.c vm.c`

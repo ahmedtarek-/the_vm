@@ -1,9 +1,12 @@
 #include "common.h"
 #include "chunk.h"
+#include "vm.h"
 #include "debug.h"
 #include <stdio.h>
 
 int main(int argc, const char* argv[]) {
+  initVM();
+
   Chunk chunk;
   Value const1 = 10.4;
   Value const2 = 32.6;
@@ -18,7 +21,11 @@ int main(int argc, const char* argv[]) {
 
   // printChunk(&chunk);
   disassembleChunk(&chunk, "Oh Chunk!");
+  interpret(&chunk);
+
   freeChunk(&chunk);
+
+  freeVM();
 
   return 0;
 }
