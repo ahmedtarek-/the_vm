@@ -4,11 +4,24 @@ A stack based VM that reads a limited set of bytecode (TBD) and executes it in C
 
 ## Compononets of a VM
 
-## The instruction set
+### The instruction set
 
-RETURN
-ADD
-LOAD
+- OP_RETURN
+- OP_NO_RETURN
+- OP_CONSTANT
+- OP_NEGATE
+- OP_ADD
+- OP_SUBTRACT
+- OP_MULT
+- OP_DIVIDE
+
+
+## The run method
+
+This is the heart of the VM (you can find it in `vm.c`).
+
+
+### The stack and how VM traverses the syntax tree
 
 
 ## To run the MOFO
@@ -42,3 +55,5 @@ http://www.cs.toronto.edu/~matz/dissertation/matzDissertation-latex2html/node6.h
 **Computed Go-To**
 
 https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables
+
+
