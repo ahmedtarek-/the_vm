@@ -9,11 +9,11 @@ int main(int argc, const char* argv[]) {
 
   // 1. Prepare chunk and constants
   Chunk chunk;
-  Value const1 = 10.4;
-  Value const2 = 32.6;
-  Value const3 = 2.0;
-  Value const4 = 1.0;
-  Value const5 = 1.0;
+  Value const1 = 1.0;
+  Value const2 = 2.0;
+  Value const3 = 3.0;
+  Value const4 = 4.0;
+  Value const5 = 5.0;
   initChunk(&chunk);
 
   uint8_t const1Loc = addConstant(&chunk, const1);
@@ -22,22 +22,31 @@ int main(int argc, const char* argv[]) {
   uint8_t const4Loc = addConstant(&chunk, const4);
   uint8_t const5Loc = addConstant(&chunk, const5);
 
-
-  // 2. Write to chunk
+  // 2. Write to chunk ( 1 + (2 * 3) - (4 / -5) )
   writeChunk(&chunk, OP_CONSTANT, 123);
-  writeChunk(&chunk, const1Loc, 123);
+  writeChunk(&chunk, const5Loc, 123);
+
+  writeChunk(&chunk, OP_NEGATE, 123);
+
+  writeChunk(&chunk, OP_CONSTANT, 123);
+  writeChunk(&chunk, const4Loc, 123);
+
+  writeChunk(&chunk, OP_DIVIDE, 124);
 
   writeChunk(&chunk, OP_CONSTANT, 124);
   writeChunk(&chunk, const2Loc, 124);
 
-  writeChunk(&chunk, OP_NEGATE, 124);
+  writeChunk(&chunk, OP_CONSTANT, 124);
+  writeChunk(&chunk, const3Loc, 124);
+
+  writeChunk(&chunk, OP_MULT, 124);
+
+  writeChunk(&chunk, OP_CONSTANT, 124);
+  writeChunk(&chunk, const1Loc, 124);
 
   writeChunk(&chunk, OP_ADD, 124);
 
-  writeChunk(&chunk, OP_CONSTANT, 123);
-  writeChunk(&chunk, const3Loc, 123);
-
-  writeChunk(&chunk, OP_MULT, 124);
+  writeChunk(&chunk, OP_SUBTRACT, 124);
 
   writeChunk(&chunk, OP_RETURN, 124);
 

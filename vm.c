@@ -50,7 +50,6 @@ VMResult run(){
   #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
   #define BINARY_OP(op) \
     do { \
-      printStackTop(); \
       Value firstValue = pop(); \
       Value secondValue = pop(); \
       push(firstValue op secondValue); \
@@ -73,7 +72,6 @@ VMResult run(){
          break;
         }
         case OP_NEGATE: {
-          printStackTop();
           Value negatedValue = pop() * -1;
           push(negatedValue);
           printStackTop();
