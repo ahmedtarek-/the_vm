@@ -152,6 +152,8 @@ http://www.cs.toronto.edu/~matz/dissertation/matzDissertation-latex2html/node6.h
 
 **Computed Go-To**
 
+Using goto and labels in C.
+
 https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables
 
 
