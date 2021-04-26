@@ -57,9 +57,7 @@ int main(void) {
     printf("%i\n",*pntr);
   }
 
-  sieve(44);
-
-
+  // sieve(44);
 
   return 0;
 }
