@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <unistd.h>
 #include <math.h>
 
 void *global_base = NULL;
@@ -13,6 +14,8 @@ struct blockMetaInfo {
 };
 
 typedef struct blockMetaInfo BlockMetaInfo;
+
+#define SIZE_OF_META_BLOCK sizeof(BlockMetaInfo)
 
 void initBlock(BlockMetaInfo *block) {
   block->next = NULL;
@@ -38,31 +41,47 @@ BlockMetaInfo *nextFreeBlock(BlockMetaInfo *last, int requestedSize) {
 }
 
 // TODO: use sbrk to request space and add that space to the end of our linked list
-BlockMetaInfo *requestSpace(int size){
+BlockMetaInfo *requestSpace(BlockMetaInfo *last, int size){
+  printf("before sbrk \n");
 
+  BlockMetaInfo *block = sbrk(0);
+  void *blockAddr = sbrk(size + SIZE_OF_META_BLOCK);
+
+  printf("after sbrk block: %p\n", block);
+  printf("after sbrk blockAddr: %p\n", blockAddr);
+
+  last->next = block; // Segmentation fault happens here
+  block->size = size;
+  block->free = 1;
+  block->next = NULL;
+  return block;
 }
 
-
 // TODO: use the main method as simulation for first and not-first calls
+// A. To perform malloc, we first go to existing blocks (linked list) to check if there's free space
+// B. If not we want to request space and append it to the linked list
+//  More on sbrk (set break): https://www.cs.hmc.edu/~geoff/classes/hmc.cs134.201209/man/syscall/sbrk.html
 int main(void) {
-  BlockMetaInfo block_1;
-  BlockMetaInfo block_2;
-  BlockMetaInfo block_3;
+  int blockSize = 11;
 
-  initBlock(&block_1);
-  initBlock(&block_2);
-  initBlock(&block_3);
+  BlockMetaInfo firstBlock;
+  initBlock(&firstBlock);
 
-  block_1.next = &block_2;
-  block_2.next = &block_3;
+  printf("ITSS MEEE AGAIN, first block addr: %p\n", &firstBlock);
 
-  block_2.size = 20;
+  BlockMetaInfo *block = nextFreeBlock(&firstBlock, blockSize);
 
-  printf("block_1: %p, %i\n", &block_1, block_1.size);
-  printf("block_2: %p, %i\n", &block_2, block_2.size);
-  printf("block_2: %p, %i\n", &block_3, block_3.size);
+  if (block == NULL) {
+    BlockMetaInfo *newSpace = requestSpace(block, blockSize);
+    printf("newSpace address: %p\n", newSpace);
+    printf("newSpace size: %d\n", newSpace->size);
+    printf("newSpace free: %d\n", newSpace->free);
+  } else {
+    printf("newSpace address: %p\n", block);
+    printf("newSpace size: %d\n", block->size);
+    printf("newSpace free: %d\n", block->free);
+  }
 
-  printf("next free %p\n", nextFreeBlock(&block_1, 20)); 
-
-  // printf("block_1 next: %p\n", block_1.next);
+  // Ah walahy
+  // printf("last's next address(should equal newSpace): %p\n", block->next);
 }

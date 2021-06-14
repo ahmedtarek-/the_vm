@@ -16,12 +16,18 @@ A stack based VM that reads a limited set of bytecode (TBD) and executes it in C
 - OP_DIVIDE
 
 
-## The run method
+### The run method
 
 This is the heart of the VM (you can find it in `vm.c`).
 
 
-### The stack and how VM traverses the syntax tree
+### The stack
+
+
+### Constants
+
+Simple constants (integers) can be passed directly in instructions themselves (immediate instructions). 
+In this VM, however, we store all constants in a constant pool (another dynamic array) for consistency.
 
 
 ## To run the MOFO
@@ -157,3 +163,8 @@ Using goto and labels in C.
 https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables
 
 
+
+
+To run the malloc
+
+`gcc -o malloc malloc.c '-Wno-deprecated-declarations'`
