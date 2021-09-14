@@ -12,7 +12,6 @@ struct blockMetaInfo {
   int size;
   int free;
 };
-
 typedef struct blockMetaInfo BlockMetaInfo;
 
 #define SIZE_OF_META_BLOCK sizeof(BlockMetaInfo)
@@ -86,6 +85,7 @@ BlockMetaInfo *my_malloc(BlockMetaInfo *firstBlock, int blockSize) {
 // More on sbrk (set break): https://www.cs.hmc.edu/~geoff/classes/hmc.cs134.201209/man/syscall/sbrk.html
 // What's missing?
 //   - How to do this without needing to pass the first block always?
+//     - What about assigning a local variable 
 int main(void) {
   int blockSize = 11;
 

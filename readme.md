@@ -168,3 +168,4 @@ https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-ta
 To run the malloc
 
 `gcc -o malloc malloc.c '-Wno-deprecated-declarations'`
+
